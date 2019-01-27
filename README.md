@@ -36,3 +36,6 @@ https://segmentfault.com/a/1190000016617400#articleHeader2
 从命令行参数字面上，我们就能看出 dependencies、devDependencies 的区别：dependencies 表示我们要在生产环境下使用该依赖，devDependencies 则表示我们仅在开发环境使用该依赖。
 
 webpack生产环境不需要，开发环境需要
+
+antd按需加载
+babel-plugin-import
