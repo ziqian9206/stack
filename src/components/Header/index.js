@@ -19,16 +19,16 @@ export default class Header extends Component {
     return (  
       <div className="header">
         <Row className="header-top">
-          <Col span="24">
+          <Col span={24}>
             <span>欢迎,{this.state.username}</span>
             <a href="#">退出</a>
           </Col>
         </Row>
         <Row className='breadcrumb'>
-          <Col span="4" className='breadcrumb-title'>
-            首页
+          <Col span={4} className='breadcrumb-title'>
+            模拟练习区
           </Col>
-          <Col span="20"  className='date'> 
+          <Col span={20}  className='date'> 
             <span>{this.state.timer}</span>
           </Col>
         </Row>

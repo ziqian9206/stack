@@ -28,7 +28,7 @@ export default class Nav extends Component {
     return (
       <div>
         <div className='logo'>
-          <h1>Template</h1>
+          <h1>模拟炒股</h1>
         </div>
         <Menu theme="dark">
           {this.state.menuTreeNode}
