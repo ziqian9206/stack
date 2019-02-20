@@ -81,3 +81,7 @@ hash(browser)router中只能有一个子节点
 path="/main/:value" link中定义具体跳转变量 this.props.macth.params.value
 
 /about/abc /about精准匹配可以分清 精准匹配主页面子路由没法显示 '/'
+
+
+### redux
+state reducer action dispatch 单项数据流

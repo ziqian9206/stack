@@ -10,7 +10,7 @@ const tabList= [{
   tab: '当前持仓',
 }, {
   key: 'entrust',
-  tab: '当然委托',
+  tab: '当前委托',
 }, {
   key: 'deal',
   tab: '当日成交',

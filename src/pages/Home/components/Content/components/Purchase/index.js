@@ -10,7 +10,7 @@ import {
 import './index.less'
 const formItemLayout = {
   labelCol: { span: 6 },
-  wrapperCol: { span: 6 },
+  wrapperCol: { span: 12 },
 };
 const FormItem = Form.Item;
 
