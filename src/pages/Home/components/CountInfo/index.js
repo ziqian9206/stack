@@ -2,7 +2,11 @@ import React, { Component } from 'react'
 import { Card, Row,Col } from 'antd';
 import './index.less'
 export default class index extends Component {
+  constructor(props){
+    super(props)
+  }
   render() {
+    const fund = this.props.fund
     return (
       <Card
         className='pesonInfo'
@@ -10,10 +14,10 @@ export default class index extends Component {
       >
       <Row>
         <Col span={8}>
-          <span className='letter'>起始资金：1000000.00</span>
+          <span className='letter'>起始资金：{fund.init}元</span>
         </Col>
         <Col span={8}>
-          <span className='letter'>现有资金：1000000.00</span>  
+          <span className='letter'>现有资金：{fund.current}元</span>  
         </Col>
         <Col span={8}>
           <span className='letter'>总资产：1000000.00</span>

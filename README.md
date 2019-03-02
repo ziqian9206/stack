@@ -85,3 +85,35 @@ path="/main/:value" link中定义具体跳转变量 this.props.macth.params.valu
 
 ### redux
 state reducer action dispatch 单项数据流
+
+### 迭代器
+依托生成器
+
+pupeteer 
+
+axios前端请求
+
+前后端接口规范
+
+document collection database
+
+schema model entity
+
+npm i request-promise-native -S
+npm i request -S --registry=https://registry.npm.taobao.org
+mpm i koa -s
+npm i bcrypt -s
+npm i glob -s
+npm i lodash ramda -s
+连接数据库
+
+OSMEQWERTYUIOPASDFGHJKLZXCVBNM
+this.ISMODIFIED password
+
+8.5加盐加密
+
+koa-router
+
+nodmon
+
+https://www.rails365.net/movies/react-redux-shi-xian-zhu-ce-deng-lu-ren-zheng-xi-tong-4-ye-mian-yu-lu-you-da-jian

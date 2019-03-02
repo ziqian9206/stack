@@ -1,13 +1,9 @@
 import React, { Component } from 'react'
 import { Card } from 'antd';
-import Stack from './components/Stack'
 import Purchase from './components/Purchase'
 import Sale from './components/Sale'
 import Withdraw from './components/Withdraw'
-const tabList= [{
-  key: 'stack',
-  tab: '资金股票',
-}, {
+const tabList= [ {
   key: 'purchase',
   tab: '买入',
 }, {
@@ -18,15 +14,15 @@ const tabList= [{
   tab: '撤单',
 }];
 const contentList = {
-  stack: <div><Stack /></div>,
   purchase: <div><Purchase /></div>,
   sale: <div><Sale /></div>,
   withdraw:<div><Withdraw /></div>
 };
 export default class index extends Component {
   state = {
-    key: 'stack',
+    key: 'purchase',
   }
+  
 
   onTabChange = (key, type) => {
     console.log(key, type);

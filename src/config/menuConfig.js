@@ -27,5 +27,20 @@ const menuList = [
         title: '权限设置',
         key: '/permission'
     },
+    {
+        title: '登录注册',
+        key: '/log',
+        children:[
+            {
+                title: '登录',
+                key: '/log/login',
+            },
+            {
+                title: '注册',
+                key: '/log/reg',
+            }
+        ]
+    },
+    
 ];
 export default menuList;
