@@ -31,7 +31,7 @@ export default class index extends Component {
   render() {
     return (
       <Card
-          className ='stackContent'
+          className ='stockContent'
           style={{ width: '100%' }}
           tabList={tabList}
           activeTabKey={this.state.key}

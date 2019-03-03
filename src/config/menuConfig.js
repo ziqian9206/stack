@@ -21,7 +21,7 @@ const menuList = [
     },
     {
         title: '找牛股',
-        key: '/stack',
+        key: '/stock',
     },
     {
         title: '权限设置',

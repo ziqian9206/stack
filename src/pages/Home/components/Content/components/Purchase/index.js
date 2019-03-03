@@ -8,6 +8,7 @@ import {
   Button,
 } from 'antd';
 import './index.less'
+import http from '../../../../../../axios/index'
 const formItemLayout = {
   labelCol: { span: 6 },
   wrapperCol: { span: 12 },
@@ -15,6 +16,14 @@ const formItemLayout = {
 const FormItem = Form.Item;
 
 class Index extends Component {
+  handlePress=(e)=>{
+    console.log(e.target.value)
+    this.getstock(e.target.value)
+  }
+  async getstock(item){
+    const info = await http.get(`/v1/stock/${item}`)
+    console.log(info)
+  }
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
@@ -24,16 +33,16 @@ class Index extends Component {
             <Row>
               <Col span={8}>
                 <FormItem {...formItemLayout} label='买入股票'>
-                  {getFieldDecorator('stackName', {
-                    rules: [{ required: true, message: 'Please input your stackName!' }],
+                  {getFieldDecorator('stockName', {
+                    rules: [{ required: true, message: 'Please input your stockName!' }],
                   })(
-                    <Input placeholder="stackName" />
+                    <Input placeholder="stockName" onChange={this.handleChange} onPressEnter={this.handlePress}/>
                   )}
                 </FormItem>
               </Col>
               <Col span={8}>
                   <FormItem {...formItemLayout} label='股票名称'>
-                      {getFieldDecorator('stack')(
+                      {getFieldDecorator('stock')(
                         <p>xxx</p>
                       )}
                   </FormItem>

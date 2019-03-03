@@ -3,7 +3,7 @@ import './index.less'
 import CountInfo from './components/CountInfo/'
 import Content from './components/Content/'
 import Record from './components/Record/'
-import http from '../../axios'
+import http from '../../axios/index'
 export default class Home extends Component {
   state = {
     key: 'purchase',
@@ -17,6 +17,7 @@ export default class Home extends Component {
       ...info.data
     })
   }
+  
   componentDidMount(){
     this.getInfo()
   }

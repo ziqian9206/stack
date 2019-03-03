@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios'
 import qs from 'qs'
 import { message } from 'antd'
 
@@ -47,6 +47,9 @@ http.get = (url,data)=>{
     })
 }
 export default http
+
+
+
 
 
 

@@ -25,16 +25,16 @@ class Index extends Component {
             <Row>
               <Col span={8}>
                 <FormItem {...formItemLayout} label='卖出股票'>
-                  {getFieldDecorator('stackName', {
-                    rules: [{ required: true, message: 'Please select your stackName!' }],
+                  {getFieldDecorator('stockName', {
+                    rules: [{ required: true, message: 'Please select your stockName!' }],
                   })(
-                    <Select placeholder="Select a stack"/>
+                    <Select placeholder="Select a stock"/>
                   )}
                 </FormItem>
               </Col>
               <Col span={8}>
                   <FormItem {...formItemLayout} label='股票名称'>
-                      {getFieldDecorator('stack')(
+                      {getFieldDecorator('stock')(
                         <p>xxx</p>
                       )}
                   </FormItem>
