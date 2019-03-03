@@ -11,8 +11,7 @@ http.post = (url,data,callback)=>{
     return new Promise((resolve,reject)=>{
         axios({
             method:"POST",
-            headers:{'Content-type':'application/json',},
-            url:`118.24.8.141:7001${url}`,
+            url:url,
             data:data,
         }).then((res)=>{
             const response = res.data
@@ -31,8 +30,7 @@ http.get = (url,data)=>{
     return new Promise((resolve,reject)=>{
         axios({
             method:"GET",
-            headers:{'Content-type':'application/json',},
-            url:`118.24.8.141:7001/${url}`,
+            url:url,
             params:data,
         }).then((res)=>{
             const response = res.data
