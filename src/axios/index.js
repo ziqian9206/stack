@@ -12,7 +12,7 @@ http.post = (url,data,callback)=>{
         axios({
             method:"POST",
             headers:{'Content-type':'application/json',},
-            url:`http://127.0.0.1:7001/${url}`,
+            url:`http://127.0.0.1:7001${url}`,
             data:data,
         }).then((res)=>{
             const response = res.data
