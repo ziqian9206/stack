@@ -12,7 +12,7 @@ http.post = (url,data,callback)=>{
         axios({
             method:"POST",
             headers:{'Content-type':'application/json',},
-            url:`http://127.0.0.1:7001${url}`,
+            url:`118.24.8.141:7001${url}`,
             data:data,
         }).then((res)=>{
             const response = res.data
@@ -32,7 +32,7 @@ http.get = (url,data)=>{
         axios({
             method:"GET",
             headers:{'Content-type':'application/json',},
-            url:`http://127.0.0.1:7001/${url}`,
+            url:`118.24.8.141:7001/${url}`,
             params:data,
         }).then((res)=>{
             const response = res.data
