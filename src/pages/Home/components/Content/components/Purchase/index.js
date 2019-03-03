@@ -6,23 +6,107 @@ import {
   Form,
   Input,
   Button,
+  message
 } from 'antd';
 import './index.less'
 import http from '../../../../../../axios/index'
+import {observer} from 'mobx-react'
+import { observable } from 'mobx'
+import fundStore from '../../../../../../store/fund';
 const formItemLayout = {
   labelCol: { span: 6 },
   wrapperCol: { span: 12 },
 };
 const FormItem = Form.Item;
+class StockStore {
+  @observable currentPrice="0";
+  @observable name = "";
+  @observable symbol= "";
+  @observable time="";
+  @observable trade= "0"
+  @observable availNum = "0"
+  @observable purchaseSum = "0"
+  @observable availFund = 0
+}
 
-class Index extends Component {
-  handlePress=(e)=>{
-    console.log(e.target.value)
+@observer class Index extends Component {
+  constructor(props){
+    super(props)
+    this.stockStore = new StockStore
+    this.fund = 0//总金额
+    this.availNum = 0//可买入数量
+    this.purchaseAmount=0//买入数量
+    this.purchasePrice=0//买入价格
+  }
+  state = {
+    currentFund:0
+  }
+  //输入股票代码点击回车
+  handleStockPress=(e)=>{
     this.getstock(e.target.value)
   }
+
+  //股票input失去焦点
+  hanldeStockBlur=(e)=>{
+    this.getstock(e.target.value)
+  }
+  //买入金额失去焦点
+  handlePurchaseBlur=(e)=>{
+    this.purchasePrice = e.target.value
+    if(e.target.value && this.purchaseAmount){
+      this.stockStore.purchaseSum = this.purchaseAmount*this.purchasePrice
+      this.stockStore.availFund = this.fund - this.stockStore.purchaseSum
+      if(this.stockStore.availFund<0){
+        message.error('当前资金不足，请充值')
+      }else{
+        sessionStorage.setItem('currentfund',this.stockStore.availFund)
+      } 
+    }
+  }
+  //买入数量失去焦点
+  handleAmountBlur=(e)=>{
+    this.purchaseAmount = e.target.value
+   if(e.target.value && this.purchasePrice){
+      this.stockStore.purchaseSum = this.purchaseAmount*this.purchasePrice
+      this.stockStore.availFund = this.fund - this.stockStore.purchaseSum
+      if(this.stockStore.availFund<0){
+        message.error('当前资金不足，请充值')
+      }
+    }
+  }
+  //下单
+  handleSubmit = ()=>{
+    const {
+      sid='',
+      purchaseAmount,
+      purchasePrice
+    } = this.props.form.getFieldsValue()
+    const params = {
+      uid:sessionStorage['uid'],
+      sid:sid,
+      count:parseInt(purchaseAmount),//买入数目
+      price:parseFloat(purchasePrice)//买入价钱
+    }
+    http.post('/v1/transaction/buy',params,()=>{
+      //重新得道数据
+      fundStore()
+      this.forceUpdate();
+      console.log(111)
+    })
+  }
+  //获得当前股票价格，股票名，可用资金，可买数量
   async getstock(item){
     const info = await http.get(`/v1/stock/${item}`)
-    console.log(info)
+    this.stockStore.currentPrice = info.data.currentPrice;
+    this.stockStore.name = info.data.name
+    this.fund = sessionStorage['currentfund']
+    this.stockStore.availFund = this.fund
+    const availNum = parseInt(this.stockStore.availFund/this.stockStore.currentPrice/100)
+    if(availNum<1){
+      message.error('当前可买不足一手，请充值')
+    }else{
+      this.stockStore.availNum = availNum
+    }
   }
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -33,17 +117,17 @@ class Index extends Component {
             <Row>
               <Col span={8}>
                 <FormItem {...formItemLayout} label='买入股票'>
-                  {getFieldDecorator('stockName', {
-                    rules: [{ required: true, message: 'Please input your stockName!' }],
+                  {getFieldDecorator('sid', {
+                    rules: [{ required: true, message: 'Please input your stockcode!' }],
                   })(
-                    <Input placeholder="stockName" onChange={this.handleChange} onPressEnter={this.handlePress}/>
+                    <Input placeholder="stockcode" onChange={this.handleStockChange} onBlur={this.hanldeStockBlur} onPressEnter={this.handleStockPress}/>
                   )}
                 </FormItem>
               </Col>
               <Col span={8}>
                   <FormItem {...formItemLayout} label='股票名称'>
-                      {getFieldDecorator('stock')(
-                        <p>xxx</p>
+                      {getFieldDecorator('stockName')(
+                        <p>{this.stockStore.name}</p>
                       )}
                   </FormItem>
               </Col>
@@ -52,14 +136,14 @@ class Index extends Component {
               <Col span={8}>
                   <FormItem {...formItemLayout} label='当前价格'>
                       {getFieldDecorator('currentPrice')(
-                        <p>xxx</p>
+                        <p>{this.stockStore.currentPrice }</p>
                       )}
                   </FormItem>
               </Col>
               <Col span={8}>
                   <FormItem {...formItemLayout} label='当前可买'>
                       {getFieldDecorator('availAmount')(
-                        <p>xxx</p>
+                        <p>{this.stockStore.availNum}手</p>
                       )}
                   </FormItem>
               </Col>
@@ -67,10 +151,10 @@ class Index extends Component {
             <Row>
               <Col span={8}>
                 <FormItem {...formItemLayout} label='买入价格'>
-                  {getFieldDecorator('purchase', {
+                  {getFieldDecorator('purchasePrice', {
                     rules: [{ required: true, message: 'Please input your price!' }],
                   })(
-                    <Input placeholder="price" />
+                    <Input placeholder="price" onBlur={this.handlePurchaseBlur} />
                   )}
                 </FormItem>
               </Col>
@@ -79,7 +163,7 @@ class Index extends Component {
                   {getFieldDecorator('purchaseAmount', {
                     rules: [{ required: true, message: 'Please input your purchase amount!' }],
                   })(
-                    <Input placeholder="Purchase" />
+                    <Input placeholder="Purchase" onBlur={this.handleAmountBlur} />
                   )}
                 </FormItem>
               </Col>
@@ -88,14 +172,14 @@ class Index extends Component {
               <Col span={8}>
                   <FormItem {...formItemLayout} label='可用金额'>
                       {getFieldDecorator('availSum')(
-                        <p>xxx</p>
+                        <p>{this.stockStore.availFund}元</p>
                       )}
                   </FormItem>
               </Col>
               <Col span={8}>
                   <FormItem {...formItemLayout} label='买入金额'>
                       {getFieldDecorator('purchaseSum')(
-                        <p>xxx</p>
+                        <p>{this.stockStore.purchaseSum}元</p>
                       )}
                   </FormItem>
               </Col>
@@ -107,9 +191,9 @@ class Index extends Component {
                   sm: { span: 16, offset: 8 },
                 }}
               >
-              <Button className='btn' type="primary" htmlType="submit">下单</Button>
-              <Button className='btn' type="primary" htmlType="refresh">刷新</Button>
-              <Button className='btn' type="primary" htmlType="reset">重置</Button>
+              <Button className='btn' type="primary" onClick={this.handleSubmit}>下单</Button>
+              <Button className='btn' type="primary" >刷新</Button>
+              <Button className='btn' type="primary" >重置</Button>
             </Form.Item>
             </Row>
           </Form>

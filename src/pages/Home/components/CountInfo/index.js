@@ -1,12 +1,26 @@
 import React, { Component } from 'react'
 import { Card, Row,Col } from 'antd';
 import './index.less'
-export default class index extends Component {
+import {observer} from 'mobx-react'
+import { observable,toJS } from 'mobx'
+import fundStore from '../../../../store/fund';
+import AppStore from '../../../../store/app';
+
+@observer class CountInfo extends Component {
   constructor(props){
     super(props)
+    this.appStore = new AppStore()
+  }
+
+  async getInfo(){
+    await fundStore(this.appStore)
+    console.log(222,this.appStore)
+  }
+
+  componentDidMount(){
+    this.getInfo()
   }
   render() {
-    const fund = this.props.fund
     return (
       <Card
         className='pesonInfo'
@@ -14,10 +28,10 @@ export default class index extends Component {
       >
       <Row>
         <Col span={8}>
-          <span className='letter'>起始资金：{fund.init}元</span>
+          <span className='letter'>起始资金：{this.appStore.init}元</span>
         </Col>
         <Col span={8}>
-          <span className='letter'>现有资金：{fund.current}元</span>  
+          <span className='letter'>现有资金：{this.appStore.current}元</span>  
         </Col>
         <Col span={8}>
           <span className='letter'>总资产：1000000.00</span>
@@ -36,3 +50,4 @@ export default class index extends Component {
   }
 }
  {/* <p>共<span className="total-num">{this.props.tableData.total}</span>条数据 */}
+ export default CountInfo

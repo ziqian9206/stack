@@ -7,7 +7,7 @@ let http = {
     get:''
 }
 
-http.post = (url,data)=>{
+http.post = (url,data,callback)=>{
     return new Promise((resolve,reject)=>{
         axios({
             method:"POST",
@@ -19,6 +19,7 @@ http.post = (url,data)=>{
             if(response.error === 0){
                 message.success(response.msg)
                 resolve(response)
+                callback()
             }else{
                 message.error(response.msg)
             }

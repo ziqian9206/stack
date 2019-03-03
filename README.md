@@ -117,3 +117,5 @@ koa-router
 nodmon
 
 https://www.rails365.net/movies/react-redux-shi-xian-zhu-ce-deng-lu-ren-zheng-xi-tong-4-ye-mian-yu-lu-you-da-jian
+
+mobx:https://blog.csdn.net/ZhangYaBo_Code/article/details/83066844?utm_source=blogxgwz5

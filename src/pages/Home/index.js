@@ -3,32 +3,37 @@ import './index.less'
 import CountInfo from './components/CountInfo/'
 import Content from './components/Content/'
 import Record from './components/Record/'
-import http from '../../axios/index'
-export default class Home extends Component {
-  state = {
-    key: 'purchase',
-    init:0,
-    current:0,
-    stocks:[]
+import fundStore from '../../store/fund';
+import {observer} from 'mobx-react'
+import { observable } from 'mobx'
+class FundStore{
+  @observable data = {
+    data:{
+      init:0,
+      current:0
+    }
+  }
+}
+@observer class Home extends Component {
+  constructor(props){
+    super(props)
+    this.fundStore = new FundStore()
   }
   async getInfo(){
-    const info = await http.get(`/v1/user/${sessionStorage['uid']}`)
-    this.setState({
-      ...info.data
-    })
+    await fundStore(this.fundStore)
   }
   
   componentDidMount(){
     this.getInfo()
   }
   render() {
-    const info = this.state
     return (
       <div className="home-wrap">
-        <CountInfo fund={info} />
-        <Content />
+        <CountInfo initFund={this.fundStore.data.init} currentFund = {this.fundStore.data.current}/>
+        <Content initFund={this.fundStore.data.init} currentFund = {this.fundStore.data.current} />
         <Record />
       </div>
     )
   }
 }
+export default Home
