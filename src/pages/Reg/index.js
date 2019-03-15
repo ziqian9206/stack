@@ -15,9 +15,7 @@ class FormRegister extends React.Component{
 
     handleSubmit = ()=>{
         let userInfo = this.props.form.getFieldsValue();
-        console.log(JSON.stringify(userInfo))
         this.getRegister(userInfo)
-       // message.success(`${userInfo.userName} 恭喜你，注册成功，当前密码为：${userInfo.userPwd}`)
     }
 
     getBase64 = (img, callback)=>{

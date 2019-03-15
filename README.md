@@ -85,7 +85,23 @@ path="/main/:value" link中定义具体跳转变量 this.props.macth.params.valu
 
 ### redux
 state reducer action dispatch 单项数据流
+数据放到公共存储空间
+reducer+flux(引入了reducer)
+redux工作流程：store放数据，ui拿数据改数据，action是组件的动作，reducer记录状态
+store唯一，reducer不唯一
+store才能改变自己的内容，reducer拿到数据返回给store，store进行更新
+reducer是纯函数，无异步操作new date等，无副作用(不对参数修改)
+核心api：
+createstore创建store
+store.dispatch派发action
+store.getstate获取store数据
+store.subscribe监听store数据改变
 
+点击买入，action改变
+const action = {
+    type:'add'
+}
+store.dispatch(action)
 ### 迭代器
 依托生成器
 
@@ -119,3 +135,5 @@ nodmon
 https://www.rails365.net/movies/react-redux-shi-xian-zhu-ce-deng-lu-ren-zheng-xi-tong-4-ye-mian-yu-lu-you-da-jian
 
 mobx:https://blog.csdn.net/ZhangYaBo_Code/article/details/83066844?utm_source=blogxgwz5
+
+yarn add redux react-redux redux-devtools-extension --save

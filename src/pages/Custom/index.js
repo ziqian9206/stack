@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 
-export default class Button extends Component {
+export default class Custom extends Component {
   render() {
     return (
       <div>
-        button组件
+        lalal
       </div>
     )
   }

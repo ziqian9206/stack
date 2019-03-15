@@ -7,18 +7,18 @@ let http = {
     get:''
 }
 
-http.post = (url,data,callback)=>{
+http.post = (url,data)=>{
+    const uData = Object.assign({},data,{uid:sessionStorage['uid']})
     return new Promise((resolve,reject)=>{
         axios({
             method:"POST",
             url:url,
-            data:data,
+            data:uData,
         }).then((res)=>{
             const response = res.data
             if(response.error === 0){
                 message.success(response.msg)
                 resolve(response)
-                callback()
             }else{
                 message.error(response.msg)
             }
@@ -28,6 +28,7 @@ http.post = (url,data,callback)=>{
 
 http.get = (url,data)=>{
     return new Promise((resolve,reject)=>{
+        const uData = 
         axios({
             method:"GET",
             url:url,

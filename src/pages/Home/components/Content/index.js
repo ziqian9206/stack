@@ -3,8 +3,6 @@ import { Card } from 'antd';
 import Purchase from './components/Purchase'
 import Sale from './components/Sale'
 import Withdraw from './components/Withdraw'
-import {observer} from 'mobx-react'
-import { observable } from 'mobx'
 const tabList= [ {
   key: 'purchase',
   tab: '买入',
@@ -16,7 +14,7 @@ const tabList= [ {
   tab: '撤单',
 }];
 
- @observer class Content extends Component {
+export default  class Content extends Component {
   constructor(props){
     super(props)
     this.currentFund = 0
@@ -52,4 +50,3 @@ const tabList= [ {
   }
 }
 
-export default Content

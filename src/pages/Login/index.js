@@ -5,7 +5,6 @@ const FormItem = Form.Item
 class FormLogin extends React.Component{
     async getLogin(userInfo){
         const res = await http.get('/v1/login',userInfo)
-        console.log(res.data.uid)
         sessionStorage.setItem('uid',res.data.uid)
     }
   handleSubmit = ()=>{

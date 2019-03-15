@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import {Row,Col} from 'antd' 
 import moment from 'moment';
+import {connect} from 'react-redux'
 import './index.less'
-export default class Header extends Component {
+class Header extends Component {
   state={
     username:'wzq',
     timer:''
@@ -16,6 +17,7 @@ export default class Header extends Component {
     },1000)
   }
   render() {
+    const { menuName} = this.props;
     return (  
       <div className="header">
         <Row className="header-top">
@@ -26,7 +28,7 @@ export default class Header extends Component {
         </Row>
         <Row className='breadcrumb'>
           <Col span={4} className='breadcrumb-title'>
-            模拟练习区
+            {menuName || "首页"}
           </Col>
           <Col span={20}  className='date'> 
             <span>{this.state.timer}</span>
@@ -36,3 +38,10 @@ export default class Header extends Component {
     )
   }
 }
+//connect中回调方法，数据源对象,menuName存到属性,事件派发，这边组件保存
+const mapstatetoprops = state =>{
+  return{
+    menuName :state.menuName
+  }
+}
+export default connect(mapstatetoprops)(Header)
