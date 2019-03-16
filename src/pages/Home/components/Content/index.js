@@ -31,7 +31,6 @@ export default  class Content extends Component {
   }
 
   onTabChange = (key, type) => {
-    console.log(key, type);
     this.setState({ [type]: key });
   }
 

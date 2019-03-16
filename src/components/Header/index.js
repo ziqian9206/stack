@@ -22,7 +22,7 @@ class Header extends Component {
       <div className="header">
         <Row className="header-top">
           <Col span={24}>
-            <span>欢迎,{this.state.username}</span>
+            <span>欢迎,{sessionStorage.getItem('account')}</span>
             <a href="#">退出</a>
           </Col>
         </Row>
@@ -41,7 +41,7 @@ class Header extends Component {
 //connect中回调方法，数据源对象,menuName存到属性,事件派发，这边组件保存
 const mapstatetoprops = state =>{
   return{
-    menuName :state.menuName
+    menuName :[state.menuName]
   }
 }
 export default connect(mapstatetoprops)(Header)

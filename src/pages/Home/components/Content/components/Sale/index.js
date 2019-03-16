@@ -99,9 +99,7 @@ class Index extends Component {
                   sm: { span: 16, offset: 8 },
                 }}
               >
-              <Button className='btn' type="primary" htmlType="submit">卖出下单</Button>
-              <Button className='btn' type="primary" htmlType="refresh">刷新</Button>
-              <Button className='btn' type="primary" htmlType="reset">重置</Button>
+              <Button className='btn' type="primary" >卖出下单</Button>
             </Form.Item>
             </Row>
           </Form>

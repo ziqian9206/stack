@@ -48,11 +48,11 @@ const SubMenu = Menu.SubMenu;
     return (
       <div>
         <div className='logo'>
-          <h1>模拟炒股</h1>
+          <h1>炒股</h1>
         </div>
         <Menu 
           onClick = {this.handleClick}
-          selectedKeys={this.state.currentKey}
+          selectedKeys={[this.state.currentKey]}
           theme="dark"
         >
           {this.state.menuTreeNode}

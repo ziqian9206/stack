@@ -21,9 +21,15 @@ class Index extends Component {
     constructor(props) {
         super(props);
     }
-    handleSubmit = ()=>{
+    handleSubmit = async ()=>{
        const data = this.formatFormParams();
-       http.post('/v1/transaction/record',data)
+       const record = await http.post('/v1/transaction/record',data)
+       if(record && record.data){
+        message.success('录入成功')
+        this.props.form.resetFields();
+       }else{
+         message.error('录入失败请，重新录入')
+       }
     }
     formatFormParams = () => {
     let {
@@ -33,7 +39,6 @@ class Index extends Component {
         count,
         price,
         totalFund,
-        rate,
         earning,
         date
         } = this.props.form.getFieldsValue();
@@ -46,7 +51,6 @@ class Index extends Component {
             count:Number(count),
             price:Number(price),
             totalFund:Number(totalFund),
-            rate:Number(rate),
             earning:Number(earning)
         }
     }
@@ -104,13 +108,13 @@ class Index extends Component {
             </Row>
             <Row>
               <Col span={8}>
-                <FormItem {...formItemLayout} label='盈亏成本'>
-                  {getFieldDecorator('cost', {
-                    rules: [{ required: true, message: 'Please input your cost!' }],
-                  })(
-                    <Input placeholder="cost" />
-                  )}
-                </FormItem>
+                  <FormItem {...formItemLayout} label='成交金额'>
+                    {getFieldDecorator('totalFund', {
+                        rules: [{ required: true, message: 'Please input your totalFund!' }],
+                    })(
+                        <Input placeholder="totalFund" />
+                    )}
+                  </FormItem>
               </Col>
               <Col span={8}>
                 <FormItem {...formItemLayout} label='成交数量'>
@@ -121,27 +125,6 @@ class Index extends Component {
                   )}
                 </FormItem>
               </Col>
-            </Row>
-            <Row>
-              <Col span={8}>
-                  <FormItem {...formItemLayout} label='成交金额'>
-                    {getFieldDecorator('totalFund', {
-                        rules: [{ required: true, message: 'Please input your totalFund!' }],
-                    })(
-                        <Input placeholder="totalFund" />
-                    )}
-                  </FormItem>
-              </Col>
-              <Col span={8}>
-                  <FormItem {...formItemLayout} label='收益率'>
-                    {getFieldDecorator('rate', {
-                        rules: [{ required: true, message: 'Please input your rate!' }],
-                    })(
-                        <Input placeholder="rate" />
-                    )}
-                  </FormItem>
-              </Col>
-              
             </Row>
             <Row>
               <Col span={8}>

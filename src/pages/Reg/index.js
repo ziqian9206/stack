@@ -16,6 +16,7 @@ class FormRegister extends React.Component{
     handleSubmit = ()=>{
         let userInfo = this.props.form.getFieldsValue();
         this.getRegister(userInfo)
+        window.location.href = '/login'
     }
 
     getBase64 = (img, callback)=>{
@@ -130,7 +131,7 @@ class FormRegister extends React.Component{
                             }
                         </FormItem>
                         <FormItem {...offsetLayout}>
-                            <Button type="primary" onClick={this.handleSubmit}>注册</Button>
+                            <Button type="primary" onClick={this.handleSubmit} >注册</Button>
                         </FormItem>
                     </Form>
                 </Card>

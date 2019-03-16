@@ -1,5 +1,4 @@
 import axios from 'axios'
-import qs from 'qs'
 import { message } from 'antd'
 
 let http = {
@@ -17,7 +16,7 @@ http.post = (url,data)=>{
         }).then((res)=>{
             const response = res.data
             if(response.error === 0){
-                message.success(response.msg)
+               // message.success(response.msg)
                 resolve(response)
             }else{
                 message.error(response.msg)
@@ -36,7 +35,7 @@ http.get = (url,data)=>{
         }).then((res)=>{
             const response = res.data
             if(response.error === 0){
-                message.success(response.msg)
+               // message.success(response.msg)
                 resolve(response)
             }else{
                 message.error(response.msg)

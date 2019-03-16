@@ -137,3 +137,25 @@ https://www.rails365.net/movies/react-redux-shi-xian-zhu-ce-deng-lu-ren-zheng-xi
 mobx:https://blog.csdn.net/ZhangYaBo_Code/article/details/83066844?utm_source=blogxgwz5
 
 yarn add redux react-redux redux-devtools-extension --save
+
+总价：收益率 股票市值
+历史记录：
+成交价格
+盈亏成本 买入股票 损失得道多少钱+手续费 实时计算 卖出资金-买入资金-买入-卖出手续费
+成交数量
+成交金额
+成交时间
+收益率 实时（0.5/6)/100% 卖出  
+交易盈亏 利润-手续费
+
+手续费:万 10，卖出万 20
+
+持仓占比
+
+50000 - 50 =49950元
+60000 - 50000 - 50 - 120 = 
+
+
+"proxy": "http://118.24.8.141:7001",
+
+"proxy": "http://192.168.199.200:7001",

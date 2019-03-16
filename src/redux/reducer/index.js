@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import {INIT_ACTION, SWITCH_MENU} from '../action/actionType' 
 
 const initialTitle = {
-    title: '首页'
+    menuName: ['首页']
 }
 
 const initReducer = (state=initialTitle, action) => {
@@ -10,6 +10,7 @@ const initReducer = (state=initialTitle, action) => {
         case INIT_ACTION: {
           return {
             ...state,
+            initData:action.data
           }
         }
         case SWITCH_MENU:{
@@ -22,12 +23,5 @@ const initReducer = (state=initialTitle, action) => {
           return state;
       }
 }
-
-// const allReducers = {
-//   title: title,
-//   init: init
-// }
-
-// const rootReducer = combineReducers(allReducers);
 
 export default initReducer;

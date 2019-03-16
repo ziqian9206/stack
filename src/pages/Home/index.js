@@ -8,20 +8,18 @@ import {connect} from 'react-redux'
 class Home extends Component {
   constructor(props){
     super(props)
-    
   }
   
   componentDidMount(){
     const { dispatch } = this.props;
     const action = getInit()
     dispatch(action)
-    console.log(action)
   }
   render() {
     return (
       <div className="home-wrap">
-        <CountInfo initFund={123} currentFund = {123}/>
-        <Content initFund={123} currentFund = {123} />
+        <CountInfo />
+        <Content />
         <Record />
       </div>
     )

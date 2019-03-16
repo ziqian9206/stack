@@ -30,11 +30,6 @@ export default class History extends Component {
         key:'price'
       },
       {
-        title:'盈亏成本',
-        dataIndex:'cost',
-        key:'cost'
-      },
-      {
         title:'成交数量',
         dataIndex:'count',
         key:'count'
@@ -53,11 +48,6 @@ export default class History extends Component {
         }
       },
       {
-        title:'收益率',
-        dataIndex:'rate',
-        key:'rate'
-      },
-      {
         title:'交易盈亏',
         dataIndex:'earning',
         key:'earning'
@@ -67,7 +57,6 @@ export default class History extends Component {
   
   async componentDidMount(){
     const record = await http.get(`/v1/transaction/${sessionStorage.getItem('uid')}`);
-    console.log(111,record.data)
     this.setState({
       tableData:record.data
     })

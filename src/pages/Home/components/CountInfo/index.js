@@ -1,21 +1,20 @@
 import React, { Component } from 'react'
 import { Card, Row,Col } from 'antd';
 import './index.less'
+import {connect} from 'react-redux'
 
-
-export default class CountInfo extends Component {
+class CountInfo extends Component {
   constructor(props){
     super(props)
     
   }
 
-  async getInfo(){
-  }
-
   componentDidMount(){
-    this.getInfo()
   }
   render() {
+   const {initData} = this.props;
+   const init = initData ? initData.init : 0 ;
+   const current = initData ? initData.current : 0 ;
     return (
       <Card
         className='pesonInfo'
@@ -23,10 +22,10 @@ export default class CountInfo extends Component {
       >
       <Row>
         <Col span={8}>
-          <span className='letter'>起始资金："init"元</span>
+          <span className='letter'>起始资金：{init}元</span>
         </Col>
         <Col span={8}>
-          <span className='letter'>现有资金："current"元</span>  
+          <span className='letter'>现有资金：{current}元</span>  
         </Col>
         <Col span={8}>
           <span className='letter'>总资产：1000000.00</span>
@@ -44,4 +43,10 @@ export default class CountInfo extends Component {
     )
   }
 }
+const mapstatetoprops = state =>{
+  return{
+    initData :state.initData
+  }
+}
+export default connect(mapstatetoprops)(CountInfo)
  {/* <p>共<span className="total-num">{this.props.tableData.total}</span>条数据 */}

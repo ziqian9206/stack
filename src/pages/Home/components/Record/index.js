@@ -30,7 +30,6 @@ export default class Record extends Component {
   }
 
   onTabChange = (key, type) => {
-    console.log(key, type);
     this.setState({ [type]: key });
   }
   render() {

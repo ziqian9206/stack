@@ -5,14 +5,15 @@ const FormItem = Form.Item
 class FormLogin extends React.Component{
     async getLogin(userInfo){
         const res = await http.get('/v1/login',userInfo)
-        sessionStorage.setItem('uid',res.data.uid)
+        sessionStorage.setItem('uid', res.data.uid)
+        sessionStorage.setItem('account', res.data.account)
+        window.location.href='/home'
     }
   handleSubmit = ()=>{
     let userInfo = this.props.form.getFieldsValue();
     this.props.form.validateFields((err,values)=>{
         if(!err){
             this.getLogin(userInfo)
-            window.location.href='/home'
         }
     })
   }
@@ -21,7 +22,7 @@ class FormLogin extends React.Component{
     const { getFieldDecorator } = this.props.form;
     return (
       <div>
-        <Card title="登录水平表单" style={{marginTop:10}}>
+        <Card title="登录表单" style={{marginTop:10}}>
                     <Form style={{width:300}}>
                         <FormItem>
                             {
@@ -65,7 +66,7 @@ class FormLogin extends React.Component{
                                     <Checkbox>记住密码</Checkbox>
                                 )
                             }
-                            <a href="/log/reg" style={{float:'right'}}>忘记密码</a>
+                            <a href="/reg" style={{float:'right'}}>用户注册</a>
                         </FormItem>
                         <FormItem>
                             <Button type="primary" onClick={this.handleSubmit}>登录</Button>
