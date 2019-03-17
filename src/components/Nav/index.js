@@ -48,7 +48,7 @@ const SubMenu = Menu.SubMenu;
     return (
       <div>
         <div className='logo'>
-          <h1>炒股</h1>
+          <h1>证券交易</h1>
         </div>
         <Menu 
           onClick = {this.handleClick}

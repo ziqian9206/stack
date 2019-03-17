@@ -4,9 +4,13 @@ import http from '../../axios'
 const FormItem = Form.Item
 class FormLogin extends React.Component{
     async getLogin(userInfo){
-        const res = await http.get('/v1/login',userInfo)
-        sessionStorage.setItem('uid', res.data.uid)
-        sessionStorage.setItem('account', res.data.account)
+        const res = await http({
+            method: 'get',
+            url: '/v1/login',
+            params: userInfo
+        })
+        sessionStorage.setItem('uid', res.uid)
+        sessionStorage.setItem('account', res.account)
         window.location.href='/home'
     }
   handleSubmit = ()=>{

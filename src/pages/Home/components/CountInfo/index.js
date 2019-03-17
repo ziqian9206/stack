@@ -2,19 +2,42 @@ import React, { Component } from 'react'
 import { Card, Row,Col } from 'antd';
 import './index.less'
 import {connect} from 'react-redux'
-
+import http from '../../../../axios'
 class CountInfo extends Component {
   constructor(props){
     super(props)
-    
+    this.stockValue = 0
+    this.totalFund = 0
+    this.yieldRate= 0
   }
 
   componentDidMount(){
+    this.getAllStock()
   }
+
+  state = {
+    yieldRate:0
+    
+  }
+
+  getAllStock = () => {
+    const {initData} = this.props;
+    if(initData && initData.init){
+      initData.stocks.map( async (item) => {
+        const info = await http.get(`/v1/stock/${item.sid}`)
+        const stockValue = info.currentPrice * item.hold
+        this.stockValue += stockValue;
+      })
+      this.totalFund = this.stockValue + initData.current;
+      this.yieldRate = (this.totalFund - initData.current)/initData.current
+    }
+  }
+
   render() {
-   const {initData} = this.props;
-   const init = initData ? initData.init : 0 ;
-   const current = initData ? initData.current : 0 ;
+    const {initData} = this.props;
+    const init = initData ? initData.init : 0 ;
+    const current = initData ? initData.current : 0 ;
+    this.getAllStock()
     return (
       <Card
         className='pesonInfo'
@@ -22,21 +45,21 @@ class CountInfo extends Component {
       >
       <Row>
         <Col span={8}>
-          <span className='letter'>起始资金：{init}元</span>
+          <span className='letter'>起始资金：{init.toFixed(2)}元</span>
         </Col>
         <Col span={8}>
-          <span className='letter'>现有资金：{current}元</span>  
+          <span className='letter'>现有资金：{current.toFixed(2)}元</span>  
         </Col>
         <Col span={8}>
-          <span className='letter'>总资产：1000000.00</span>
+          <span className='letter'>总资产：{this.totalFund === 0 ? init : this.totalFund.toFixed(2)}</span>
         </Col>
       </Row>
       <Row>
         <Col span={8}>
-          <span className='letter'>收益率：30%</span>
+          <span className='letter'>收益率：{this.yieldRate.toFixed(4)}</span>
         </Col>
         <Col span={8}>
-          <span className='letter'>股票市值：-8.50%</span>
+          <span className='letter'>股票市值：{this.stockValue}</span>
         </Col>
       </Row>
     </Card>
@@ -45,7 +68,8 @@ class CountInfo extends Component {
 }
 const mapstatetoprops = state =>{
   return{
-    initData :state.initData
+    initData : state.initData,
+    stock : state.stock
   }
 }
 export default connect(mapstatetoprops)(CountInfo)

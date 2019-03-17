@@ -3,8 +3,9 @@ import './index.less'
 import CountInfo from './components/CountInfo/'
 import Content from './components/Content/'
 import Record from './components/Record/'
-import {getInit} from '../../redux/action'
+import {getInit,getPosition} from '../../redux/action'
 import {connect} from 'react-redux'
+import Position from './components/Record/components/Position';
 class Home extends Component {
   constructor(props){
     super(props)
@@ -12,8 +13,8 @@ class Home extends Component {
   
   componentDidMount(){
     const { dispatch } = this.props;
-    const action = getInit()
-    dispatch(action)
+    const initAction = getInit()
+    dispatch(initAction)
   }
   render() {
     return (

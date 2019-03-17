@@ -39,13 +39,12 @@ class Index extends Component {
   //获得当前股票价格，股票名，可用资金，可买数量
   async getstock(item){
     const info = await http.get(`/v1/stock/${item}`)
-    const infoData = info.data
-    const availNum = parseInt(this.current/infoData.currentPrice/100)
+    const availNum = parseInt(this.current/info.currentPrice/100)
     if(availNum<1){
       message.error('当前可买不足一手，请充值')
     }else{
       this.setState({
-        infoData:{...infoData},
+        infoData:{...info},
         availNum
       })
     }
@@ -57,28 +56,19 @@ class Index extends Component {
   买入金额失去焦点
   handlePurchaseBlur=(e)=>{
     this.purchasePrice = e.target.value
-    if(e.target.value && this.purchaseAmount){
+    if(e.target.value && this.purchaseAmount !== 0 ){
       const purchaseSum = this.purchaseAmount*this.purchasePrice
       this.setState({
         purchaseSum 
       })
-      const availFund = this.current - purchaseSum
-      if(availFund<0){
-        message.error('当前资金不足，请充值')
-      }else{
-        this.setState({
-          availFund,
-          purchaseSum 
-        }) 
-      }
     }
   }
-  买入数量失去焦点
+  //买入数量失去焦点
   handleAmountBlur=(e)=>{
     this.purchaseAmount = e.target.value
-    if(e.target.value && this.purchaseAmount){
+    if(e.target.value && this.purchasePrice !== 0){
       const purchaseSum = this.purchaseAmount*this.purchasePrice
-      const availFund = this.current - purchaseSum
+      const availFund = this.current - purchaseSum * (1+0.001)
       if(availFund<0){
         message.error('当前资金不足，请充值')
       }else{
@@ -91,10 +81,12 @@ class Index extends Component {
   }
   //下单
   handleSubmit = ()=>{
-    const sid = this.state.infoData.symbol
-    const count = this.state.availNum
-    const price = this.state.availFund
-    http.post('/v1/transaction/buy',{sid,price,count})
+    const sid = this.state.infoData.sid
+    const count = Number(this.purchaseAmount)
+    const price = Number(this.purchasePrice)
+    const uid = sessionStorage.getItem('uid')
+    http.post('/v1/transaction/buy',{sid,price,count,uid,type:1})
+    window.location.href = '/home'
   }
   
   render() {
@@ -164,7 +156,7 @@ class Index extends Component {
               <Col span={8}>
                   <FormItem {...formItemLayout} label='可用金额'>
                       {getFieldDecorator('availFund')(
-                        <p>{this.state.availFund}元</p>
+                        <p>{this.current.toFixed(2)}元</p>
                       )}
                   </FormItem>
               </Col>

@@ -22,11 +22,11 @@ class Index extends Component {
         super(props);
     }
     handleSubmit = async ()=>{
-       const data = this.formatFormParams();
+       const data = {...this.formatFormParams(),uid:sessionStorage.getItem('uid')};
        const record = await http.post('/v1/transaction/record',data)
        if(record && record.data){
-        message.success('录入成功')
-        this.props.form.resetFields();
+          message.success('录入成功')
+          this.props.form.resetFields();
        }else{
          message.error('录入失败请，重新录入')
        }
@@ -46,7 +46,7 @@ class Index extends Component {
         return{
             sid,
             sname,
-            action,
+            action:Number(action),
             time,
             count:Number(count),
             price:Number(price),
@@ -86,12 +86,12 @@ class Index extends Component {
             <Row>
               <Col span={8}>
                   <FormItem {...formItemLayout} label='买入/卖出'>
-                    {getFieldDecorator('action', {initialValue:1,
+                    {getFieldDecorator('action', {nitialValue:'0',
                         rules: [{ required: true, message: 'Please input your action!' }],
                     })(
-                        <Select>
-                            <Option value={0}>卖出</Option>
-                            <Option value={1}>买入</Option>
+                        <Select labelInValue >
+                            <Option className='saleOption' value="0" key='0'>证券卖出</Option>
+                            <Option className='purchaseOption' value="1" key='1'>证券买入</Option>
                         </Select>
                     )}
                   </FormItem>

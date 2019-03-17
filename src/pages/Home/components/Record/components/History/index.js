@@ -10,6 +10,22 @@ export default class History extends Component {
     }
     this.positionColumns =[
       {
+        title:'成交日期',
+        dataIndex:'time',
+        key:'date',
+        render:text => {
+          return <span key={text}>{new moment(text).format('YYYY-MM-DD')}</span>;
+        }
+      },
+      {
+        title:'成交时间',
+        dataIndex:'time',
+        key:'time',
+        render:text => {
+          return <span key={text}>{new moment(text).format('h:mm:ss a')}</span>;
+        }
+      },
+      {
         title:'股票名称',
         dataIndex:'sname',
         key:'sname'
@@ -22,7 +38,14 @@ export default class History extends Component {
       {
         title:'买入/卖出',
         dataIndex:'action',
-        key:'action'
+        key:'action',
+        render:(text,record) => {
+          if(text===1){
+            return <span>买入</span>
+          }else{
+            return <span>卖出</span>
+          }
+        } 
       },
       {
         title:'成交价格',
@@ -39,26 +62,13 @@ export default class History extends Component {
         dataIndex:'totalFund',
         key:'totalFund'
       },
-      {
-        title:'成交时间',
-        dataIndex:'time',
-        key:'time',
-        render:text => {
-          return <span key={text}>{new moment(text).format('YYYY-MM-DD,h:mm:ss a')}</span>;
-        }
-      },
-      {
-        title:'交易盈亏',
-        dataIndex:'earning',
-        key:'earning'
-      }
     ]
   }
   
   async componentDidMount(){
     const record = await http.get(`/v1/transaction/${sessionStorage.getItem('uid')}`);
     this.setState({
-      tableData:record.data
+      tableData:record
     })
   }
   render() {

@@ -1,24 +1,48 @@
 import React, { Component } from 'react'
 import { Table } from 'antd';
-
+import http from '../../../../../../axios'
+import moment from 'moment'
 export default class Entrust extends Component {
   constructor(props){
     super(props);
     this.positionColumns =[
       {
+        title:'委托日期',
+        dataIndex:'time',
+        key:'date',
+        render:text => {
+          return <span key={text}>{new moment(text).format('YYYY-MM-DD')}</span>;
+        }
+      },
+      {
+        title:'委托时间',
+        dataIndex:'time',
+        key:'time',
+        render:text => {
+          return <span key={text}>{new moment(text).format('h:mm:ss a')}</span>;
+        }
+      },
+      {
         title:'股票名称',
-        dataIndex:'name',
-        key:'name'
+        dataIndex:'sname',
+        key:'sname'
       },
       {
         title:'股票代码',
-        dataIndex:'code',
-        key:'code'
+        dataIndex:'sid',
+        key:'sid'
       },
       {
         title:'买入/卖出',
-        dataIndex:'type',
-        key:'type'
+        dataIndex:'action',
+        key:'action',
+        render:(text,record) => {
+          if(text===1){
+            return <span>买入</span>
+          }else{
+            return <span>卖出</span>
+          }
+        } 
       },
       {
         title:'委托价格',
@@ -27,30 +51,46 @@ export default class Entrust extends Component {
       },
       {
         title:'委托数量',
-        dataIndex:'amount',
-        key:'amount'
+        dataIndex:'count',
+        key:'count'
       },
-      {
-        title:'委托时间',
-        dataIndex:'time',
-        key:'time'
-      },
+      
       {
         title:'成交状态',
         dataIndex:'status',
-        key:'status'
-      },
-      {
-        title:'操作',
-        dataIndex:'opertion',
-        key:'opertion'
+        key:'status',
+        render:(text,record) => {
+          if(text===1){
+            return <span>成交</span>
+          }else{
+            return <span>委托</span>
+          }
+        } 
       }
     ]
+  }
+
+  state = { 
+    dataSource : []
+  }
+
+  async componentDidMount(){
+    //v1/stock/commission/:uid?starttime=&endtime=
+    const nowDate = new Date().getTime()
+    const todayDate = moment().startOf('day').toDate().getTime()
+    const params = {
+      starttime:todayDate,
+      endtime:nowDate
+    }
+    const commission = await http.get(`v1/stock/commission/${sessionStorage.getItem('uid')}`,params)
+    this.setState({
+      dataSource:[...commission]
+    })
   }
   render() {
     return (
       <div>
-        <Table columns={this.positionColumns} />
+        <Table rowKey={record => (record._id)} columns={this.positionColumns} dataSource={this.state.dataSource}/>
       </div>
     )
   }

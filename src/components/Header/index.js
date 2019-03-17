@@ -23,7 +23,7 @@ class Header extends Component {
         <Row className="header-top">
           <Col span={24}>
             <span>欢迎,{sessionStorage.getItem('account')}</span>
-            <a href="#">退出</a>
+            <a href="/login">退出</a>
           </Col>
         </Row>
         <Row className='breadcrumb'>
