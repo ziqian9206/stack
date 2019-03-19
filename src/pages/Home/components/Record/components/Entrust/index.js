@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table } from 'antd';
+import { Table, Button } from 'antd';
 import http from '../../../../../../axios'
 import moment from 'moment'
 export default class Entrust extends Component {
@@ -54,7 +54,6 @@ export default class Entrust extends Component {
         dataIndex:'count',
         key:'count'
       },
-      
       {
         title:'成交状态',
         dataIndex:'status',
@@ -66,7 +65,16 @@ export default class Entrust extends Component {
             return <span>委托</span>
           }
         } 
-      }
+      },
+      {
+        title: '操作',
+        dataIndex: 'operator',
+        fixed: 'right',
+        width: 100,
+        render: (text, record) => (
+           <Button onClick={()=>{this.onOperatorClick(record)}}>撤销</Button>
+        )
+    }
     ]
   }
 
@@ -85,6 +93,19 @@ export default class Entrust extends Component {
     const commission = await http.get(`v1/stock/commission/${sessionStorage.getItem('uid')}`,params)
     this.setState({
       dataSource:[...commission]
+    })
+  }
+
+  onOperatorClick = (record) => {
+    const data = []
+    http.get(`/v1/stock/commission/revoke/${record._id}`)
+    this.state.dataSource.map(( item ) => {
+      if(item._id !== record._id){
+        data.push(item)
+      }
+    })
+    this.setState({
+      dataSource:[...data]
     })
   }
   render() {

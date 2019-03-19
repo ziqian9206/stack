@@ -3,6 +3,7 @@ import { Card, Row,Col } from 'antd';
 import './index.less'
 import {connect} from 'react-redux'
 import http from '../../../../axios'
+import { getInit } from '../../../../redux/action'
 class CountInfo extends Component {
   constructor(props){
     super(props)
@@ -12,6 +13,9 @@ class CountInfo extends Component {
   }
 
   componentDidMount(){
+    const { dispatch } = this.props;
+    const initAction = getInit()
+    dispatch(initAction)
     this.getAllStock()
   }
 

@@ -17,12 +17,12 @@ export default class router extends Component {
           <Switch>
             <Route path="/login" component={Login}/>
             <Route path="/reg" component={Reg} />
+            <Route path='/custom' component={Custom}/>
             <Route path="/" render={()=>{
                  return sessionStorage.getItem('uid') ? <Admin>
                     <Switch>
                       <Route path='/home' component={Home} />
                       <Route path='/history' component={History}/>
-                      <Route path='/custom' component={Custom}/>
                       <Route path="/log/login" component={Login}/>
                       <Route path="/log/reg" component={Reg} />
                       <Route component={NoMatch} />

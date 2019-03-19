@@ -50,7 +50,7 @@ import { message } from 'antd'
 
 
 const instance = axios.create({
-    baseURL: 'http://192.168.199.200:7001',
+    baseURL: 'http://118.24.8.141:7001',
     timeout: 30000
   });
 

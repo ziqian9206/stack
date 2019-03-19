@@ -1,8 +1,25 @@
 import React, { Component } from 'react'
-import { Table } from 'antd';
+import { Table,Form,DatePicker, Button ,Row, Col } from 'antd';
 import http from '@/axios'
 import moment from 'moment';
-export default class History extends Component {
+import './index.less'
+
+const formItemLayout = {
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 16 },
+  },
+};
+const FormItem = Form.Item;
+const { RangePicker } = DatePicker;
+const rangeConfig = {
+  rules: [{ type: 'array', required: true, message: 'Please select time!' }],
+};
+const formatTime = date => (
+  new moment(date).toDate().getTime()
+);
+
+class History extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -71,11 +88,55 @@ export default class History extends Component {
       tableData:record
     })
   }
+
+  handleSubmit = async() => {
+    const { time } = this.props.form.getFieldsValue();
+    const starttime = formatTime(time[0]),
+          endtime = formatTime(time[1]),
+          params = {
+            starttime,
+            endtime
+          }
+    const record = await http.get(`/v1/transaction/${sessionStorage.getItem('uid')}`,params);
+    this.setState({
+      tableData:record
+    })
+  }
+
   render() {
+    const { getFieldDecorator } = this.props.form;
     return (
       <div>
-        <Table columns={this.positionColumns}  rowKey={record => (record.uid)} dataSource={this.state.tableData}/>
+        <Table columns={this.positionColumns}  
+        rowKey={record => (record._id)} 
+        dataSource={this.state.tableData} 
+        rowClassName={(record, index) => {console.log(record);return record.action === 1 ? "parchaseRow" : "saleRow"}}
+        />
+          <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+            <Row> 
+              <Col span={8}>
+                <FormItem
+                >
+                  {getFieldDecorator('time', rangeConfig)(
+                    <RangePicker showTime format="YYYY-MM-DD HH:mm:ss" />
+                  )}
+                </FormItem>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  wrapperCol={{
+                    xs: { span: 24, offset: 0 },
+                    sm: { span: 16, offset: 8 },
+                  }}
+                >
+                  <Button className='btn' type="primary" onClick={this.handleSubmit}>确认</Button>
+                </Form.Item>
+              </Col>
+            </Row>
+          </Form>
+        
       </div>
     )
   }
 }
+export default Form.create({})(History);

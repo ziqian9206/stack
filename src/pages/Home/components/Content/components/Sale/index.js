@@ -71,24 +71,37 @@ class Index extends Component {
   handleSubmit = () => {
     const sid = this.state.sid,
           availSale = this.state.availSale,//当前可卖
-          count = this.saleAmount,//卖出数量
-          price = this.salePrice
+          count = Number(this.saleAmount),//卖出数量
+          price = Number(this.salePrice)
     if(count <= availSale){
       //请求接口
       const uid = sessionStorage.getItem('uid')
-      http.post('/v1/transaction/buy',{sid,price,count,uid,type:0})
+      try{
+        http.post('/v1/transaction/buy',{sid,price,count,uid,type:0})
+        window.location.href = '/home'
+      }catch(err){
+        message.error(err)
+      }
     }else{
       message.error('可卖数量小于卖出数量')
     }
   }
 
   handleSelect = async(value,Option) => {
+    const {position} = this.props
     const sid = value.key
     const info = await http.get(`/v1/stock/${sid}`)
+    let availSale = 0
+    position.map((item) => {
+      if( item.sid === sid ){
+        availSale = item.hold
+      }
+    })
     this.setState({
       currentPrice:info.currentPrice,
       count:Option.props.count,
-      sid
+      sid,
+      availSale
     })
   }
 
@@ -110,7 +123,8 @@ class Index extends Component {
                   })(
                     <Select placeholder="Select a stock" labelInValue onSelect={this.handleSelect}>
                         {this.position.map((item) => {
-                            return <Option key={item.sid} title={item.sid} count={item.count} >{item.sname}</Option>;
+                          console.log(item)
+                            return <Option key={item.sid} title={item.sid} count={item.count} >{item.name}</Option>;
                         
                       })}
                    </Select>

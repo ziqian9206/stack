@@ -2,16 +2,12 @@ import React, { Component } from 'react'
 import { Card } from 'antd';
 import Purchase from './components/Purchase'
 import Sale from './components/Sale'
-import Withdraw from './components/Withdraw'
 const tabList= [ {
   key: 'purchase',
   tab: '买入',
 }, {
   key: 'sale',
   tab: '卖出',
-},{
-  key: 'withdraw',
-  tab: '撤单',
 }];
 
 export default  class Content extends Component {
@@ -21,7 +17,6 @@ export default  class Content extends Component {
     this.contentList = {
       purchase: <div><Purchase /></div>,
       sale: <div><Sale /></div>,
-      withdraw:<div><Withdraw /></div>
     };  
   }
 
