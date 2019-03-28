@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import MenuConfig from '../../config/menuConfig'
 import {Link} from 'react-router-dom'
-import {Menu,Icon} from 'antd'
+import {Menu} from 'antd'
 import './index.less'
 import {connect} from 'react-redux'
 import {switchMenu} from './../../redux/action/index'
@@ -12,7 +12,7 @@ const SubMenu = Menu.SubMenu;
   }
   // 菜单点击
   handleClick = ({ item, key }) => {
-    if (key == this.state.currentKey) {
+    if (key === this.state.currentKey) {
         return false;
     }
     // 事件派发，自动调用reducer，通过reducer保存到store对象中

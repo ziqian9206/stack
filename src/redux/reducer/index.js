@@ -1,8 +1,8 @@
-import { combineReducers } from 'redux';
-import {INIT_ACTION, SWITCH_MENU, POSITON_ACTION, STOCK_ACTION} from '../action/actionType' 
+import {INIT_ACTION, SWITCH_MENU, POSITON_ACTION, STOCK_ACTION,FUND_INFO} from '../action/actionType' 
 import http from '../../axios'
 const initialTitle = {
     menuName: ['首页'],
+    stockValue:0
 }
 
 const initReducer = (state=initialTitle, action) => {
@@ -36,6 +36,12 @@ const initReducer = (state=initialTitle, action) => {
             stockData:action.stock
           }
         } 
+        case FUND_INFO : {
+          return {
+            ...state,
+            stockValue:action.stockValue
+          }
+        }
         default:
           return state;
       }

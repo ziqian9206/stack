@@ -110,7 +110,7 @@ class History extends Component {
         <Table columns={this.positionColumns}  
         rowKey={record => (record._id)} 
         dataSource={this.state.tableData} 
-        rowClassName={(record, index) => {console.log(record);return record.action === 1 ? "parchaseRow" : "saleRow"}}
+        rowClassName={(record, index) => record.action === 1 ? "parchaseRow" : "saleRow"}
         />
           <Form {...formItemLayout} onSubmit={this.handleSubmit}>
             <Row> 

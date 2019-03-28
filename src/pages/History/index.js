@@ -18,9 +18,6 @@ const formItemLayout = {
 const FormItem = Form.Item;
 const { Option } = Select;
 class Index extends Component {
-    constructor(props) {
-        super(props);
-    }
     handleSubmit = async ()=>{
        const data = {...this.formatFormParams(),uid:sessionStorage.getItem('uid')};
        const record = await http.post('/v1/transaction/record',data)

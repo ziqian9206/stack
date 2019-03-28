@@ -103,6 +103,7 @@ export default class Entrust extends Component {
       if(item._id !== record._id){
         data.push(item)
       }
+      return item
     })
     this.setState({
       dataSource:[...data]

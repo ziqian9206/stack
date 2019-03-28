@@ -1,19 +1,18 @@
 //当前持仓
 import React, { Component } from 'react'
-import { Table } from 'antd';
+import { Table, Spin } from 'antd';
 import {connect} from 'react-redux'
-import {getPosition} from '../../../../../../redux/action'
 import http from '../../../../../../axios'
-
+import {getPosition, getStock} from '../../../../../../redux/action'
 class Position extends Component {
   constructor(props){
     super(props);
-    
+
     this.positionColumns = [
       {
         title:'股票名称',
-        dataIndex:'sname',
-        key:'sname'
+        dataIndex:'name',
+        key:'name'
       },
       {
         title:'股票代码',
@@ -22,16 +21,13 @@ class Position extends Component {
       },
       {
         title:'当前持股',
-        dataIndex:'count',
-        key:'count'
+        dataIndex:'hold',
+        key:'hold'
       },
       {
         title:'最新价',
         dataIndex:'current',
-        key:'current',
-        render:(text,record)=>{
-          return <span>{record.current}</span>
-        }
+        key:'current'
       },
       {
         title:'今日涨幅',
@@ -43,52 +39,66 @@ class Position extends Component {
         dataIndex:'totalFund',
         key:'totalFund'
       },
-      {
-        title:'盈亏比例',
-        dataIndex:'profitRatio',
-        key:'profitRatio'
-      },
+      // {
+      //   title:'盈亏比例',
+      //   dataIndex:'profitRatio',
+      //   key:'profitRatio'
+      // },
       {
         title:'持仓占比',
         dataIndex:'positionRate',
-        key:'positionRate'
+        key:'positionRate',
+        render : (text,record) => {
+          const positionRate = (record.current * record.hold /this.props.initData.current).toFixed(2)
+          return <span>{positionRate}</span>
+        }
       }
     ]
   }
 
-  state = {
-      dataSource:[]
+  state = { 
+    loading : true,
+    dataSource : []
+   }
+
+//1.position => 2.遍历position拿到sid 3.拿sid请求数据 4.修改数据 5.返回
+//浮动盈亏：现在价格-开盘价格
+//盈亏比例：（现在价格-买入）/买入
+  async componentDidMount(){
+    const position = await http.get(`/v1/stock/hold/${sessionStorage.getItem('uid')}`)
+    position.map( async item => {
+      const info = await http.get(`/v1/stock/${item.sid}`)
+      item['current'] = Number(info.currentPrice)
+      item['yesterdayEnd'] = info.yesterdayEnd
+      item['rate'] = ((item['current']- item['yesterdayEnd']) / item['yesterdayEnd']).toFixed(2)
+      item.totalFund = (item.current - item.yesterdayEnd).toFixed(2)
+      this.setState({
+        dataSource:this.state.dataSource.concat(item),
+      })
+    })
+    this.setState({
+      loading:false
+    })
   }
-  // componentDidMount(){
-  //   const { dispatch } = this.props;
-  //   const action = getPosition()
-  //   dispatch(action)
-  // }
-  componentDidMount(){
-    http.get(`/v1/stock/hold/${sessionStorage.getItem('uid')}`)
-        .then(res => {
-          res.map( async item => {
-            const info = await http.get(`/v1/stock/${item.sid}`)
-            item['current'] = Number(info.currentPrice)
-            item['yesterdayEnd'] = info.yesterdayEnd
-            item['rate'] = (item['current']- item['yesterdayEnd']) / item['yesterdayEnd']
-          })
-          this.setState({
-            dataSource:[...res]
-          })
-    });  
-  }
+
   render() {
     return (
-      <div>
-       <Table columns={this.positionColumns} rowKey={record => (record._id)} dataSource={this.state.dataSource}/>
-      </div>
+      <>
+        <Spin spinning={this.state.loading}>
+          <Table columns={this.positionColumns} rowKey={record => (record._id)} dataSource={ this.state.dataSource }/>
+        </Spin>
+      </>
     )
   }
 }
+
+
 const mapstatetoprops = state =>{
   return{
-    position :state.position
+    initData :state.initData,
+    position :state.position,
+    stockData : state.stockData
   }
 }
+
 export default connect(mapstatetoprops)(Position)

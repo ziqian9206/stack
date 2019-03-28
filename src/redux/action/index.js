@@ -1,5 +1,5 @@
 // 行为 ACTION类型 purchase sale withdraw type就可以改变
-import {INIT_ACTION, SWITCH_MENU, POSITON_ACTION, STOCK_ACTION} from './actionType'
+import {INIT_ACTION, SWITCH_MENU, POSITON_ACTION, STOCK_ACTION,FUND_INFO} from './actionType'
 import http from '../../axios'
 
 export const switchMenu = (menuName) => ({
@@ -10,6 +10,11 @@ export const switchMenu = (menuName) => ({
 export const initAction = (data) => ({
     type:INIT_ACTION,
     data
+})
+
+export const fundAction = (stockValue) => ({
+    type:FUND_INFO,
+    stockValue
 })
 
 export const positionAction = (position) => ({
@@ -36,7 +41,7 @@ export const getPosition = () => {
 //股票请求action
 export const stockAction = (stock) => ({
     type:STOCK_ACTION,
-    stock
+    stock:[stock]
 })
 
 //股票请求

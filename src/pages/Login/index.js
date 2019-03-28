@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Card, Form, Input, Button, Icon, Checkbox } from "antd";
 import http from '../../axios'
 const FormItem = Form.Item

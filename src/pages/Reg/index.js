@@ -1,6 +1,5 @@
 import React from 'react'
-import {Card,Form,Button,Input,Checkbox,Radio,Select,Switch,DatePicker,TimePicker,Upload,Icon, InputNumber} from 'antd'
-import moment from 'moment';
+import {Card,Form,Button,Input,Checkbox,Radio,Select, InputNumber} from 'antd'
 import http from '../../axios'
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
@@ -9,8 +8,9 @@ const TextArea = Input.TextArea;
 class FormRegister extends React.Component{
 
     state={}
+
     async getRegister(userInfo){
-        const res = await http.post('/v1/register',userInfo);
+        await http.post('/v1/register',userInfo);
     }
 
     handleSubmit = ()=>{
@@ -126,7 +126,7 @@ class FormRegister extends React.Component{
                         <FormItem {...offsetLayout}>
                             {
                                 getFieldDecorator('userImg')(
-                                   <Checkbox>我已阅读过<a href="#">协议</a></Checkbox>
+                                   <Checkbox>我已阅读过协议</Checkbox>
                                 )
                             }
                         </FormItem>

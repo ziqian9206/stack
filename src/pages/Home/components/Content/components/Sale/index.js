@@ -96,6 +96,7 @@ class Index extends Component {
       if( item.sid === sid ){
         availSale = item.hold
       }
+      return item
     })
     this.setState({
       currentPrice:info.currentPrice,
@@ -123,7 +124,6 @@ class Index extends Component {
                   })(
                     <Select placeholder="Select a stock" labelInValue onSelect={this.handleSelect}>
                         {this.position.map((item) => {
-                          console.log(item)
                             return <Option key={item.sid} title={item.sid} count={item.count} >{item.name}</Option>;
                         
                       })}
