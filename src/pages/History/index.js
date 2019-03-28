@@ -21,11 +21,11 @@ class Index extends Component {
     handleSubmit = async ()=>{
        const data = {...this.formatFormParams(),uid:sessionStorage.getItem('uid')};
        const record = await http.post('/v1/transaction/record',data)
-       if(record && record.data){
+       if(record){
           message.success('录入成功')
           this.props.form.resetFields();
        }else{
-         message.error('录入失败请，重新录入')
+         message.error('录入失败请重新录入')
        }
     }
     formatFormParams = () => {
@@ -43,7 +43,7 @@ class Index extends Component {
         return{
             sid,
             sname,
-            action:Number(action),
+            action:Number(action.key),
             time,
             count:Number(count),
             price:Number(price),
@@ -83,7 +83,7 @@ class Index extends Component {
             <Row>
               <Col span={8}>
                   <FormItem {...formItemLayout} label='买入/卖出'>
-                    {getFieldDecorator('action', {nitialValue:'0',
+                    {getFieldDecorator('action', {initialValue:'0',
                         rules: [{ required: true, message: 'Please input your action!' }],
                     })(
                         <Select labelInValue >
