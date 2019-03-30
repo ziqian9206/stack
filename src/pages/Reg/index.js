@@ -10,13 +10,17 @@ class FormRegister extends React.Component{
     state={}
 
     async getRegister(userInfo){
-        await http.post('/v1/register',userInfo);
+        const regStatus = await http.post('/v1/register',userInfo);
+        console.log(1111,regStatus)
+        if(regStatus && regStatus.uid){
+            window.location.href = '/login'
+        }
     }
 
     handleSubmit = ()=>{
         let userInfo = this.props.form.getFieldsValue();
         this.getRegister(userInfo)
-        window.location.href = '/login'
+        
     }
 
     getBase64 = (img, callback)=>{
@@ -126,7 +130,7 @@ class FormRegister extends React.Component{
                         <FormItem {...offsetLayout}>
                             {
                                 getFieldDecorator('userImg')(
-                                   <Checkbox>我已阅读过协议</Checkbox>
+                                   <Checkbox checked>我已阅读过协议</Checkbox>
                                 )
                             }
                         </FormItem>

@@ -48,16 +48,16 @@ class CountInfo extends Component {
         {/* <Col span={8}>
           <span className='letter'>起始资金：{init.toFixed(2)}元</span>
         </Col> */}
-        <Col span={8}>
+        {/* <Col span={8}>
           <span className='letter'>现有资金：{current.toFixed(2)}元</span>  
-        </Col>
+        </Col> */}
         <Col span={8}>
           <span className='letter'>总资产：{totalFund}</span>
         </Col>
       </Row>
       <Row>
         <Col span={8}>
-          <span className='letter'>收益率：{yieldRate}</span>
+          <span className='letter yield'>收益率：{yieldRate}</span>
         </Col>
         <Col span={8}>
           <span className='letter'>股票市值：{stockValue}</span>
