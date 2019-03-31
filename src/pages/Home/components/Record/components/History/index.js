@@ -97,7 +97,7 @@ class History extends Component {
             starttime,
             endtime
           }
-    const record = await http.get(`/v1/transaction/${sessionStorage.getItem('uid')}`,params);
+    const record = await http.get(`/v1/transaction/${sessionStorage.getItem('uid')}`,{params});
     this.setState({
       tableData:record
     })

@@ -90,7 +90,7 @@ export default class Entrust extends Component {
       starttime:todayDate,
       endtime:nowDate
     }
-    const commission = await http.get(`v1/stock/commission/${sessionStorage.getItem('uid')}`,params)
+    const commission = await http.get(`v1/stock/commission/${sessionStorage.getItem('uid')}`,{params})
     this.setState({
       dataSource:[...commission]
     })

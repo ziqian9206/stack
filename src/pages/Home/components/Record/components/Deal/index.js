@@ -77,7 +77,8 @@ export default class Deal extends Component {
       starttime:todayDate,
       endtime:nowDate
     }
-    const record = await http.get(`/v1/transaction/${sessionStorage.getItem('uid')}`,params);
+    console.log(params)
+    const record = await http.get(`/v1/transaction/${sessionStorage.getItem('uid')}`,{params});
     this.setState({
       dataSource:[...record]
     })

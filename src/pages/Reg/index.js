@@ -1,5 +1,5 @@
 import React from 'react'
-import {Card,Form,Button,Input,Checkbox,Radio,Select, InputNumber} from 'antd'
+import {Card,Form,Button,Input,Checkbox,Radio,Select,message, InputNumber} from 'antd'
 import http from '../../axios'
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
@@ -11,9 +11,11 @@ class FormRegister extends React.Component{
 
     async getRegister(userInfo){
         const regStatus = await http.post('/v1/register',userInfo);
-        console.log(1111,regStatus)
         if(regStatus && regStatus.uid){
             window.location.href = '/login'
+        }else{
+            message.error('注册失败');
+            
         }
     }
 
