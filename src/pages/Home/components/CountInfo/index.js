@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Row,Col } from 'antd';
+import { Card, Row,Col ,Button} from 'antd';
 import './index.less'
 import {connect} from 'react-redux'
 import http from '../../../../axios'
@@ -32,13 +32,15 @@ class CountInfo extends Component {
     }
   }
 
+ 
+
   render() {
     const {initData, stockValue} = this.props;
-    const init = initData ? initData.init : 0 ;
+    const init = initData ? initData.init : 1000000 ;
     const current = initData ? initData.current : 0 ;
     this.getAllStock()
-    const totalFund = stockValue + current;
-    const yieldRate = ((totalFund - init)/init).toFixed(4)*100
+    const totalFund = toDecimal(stockValue + current);
+    const yieldRate = ((totalFund - init)/init*100).toFixed(6);
     return (
       <Card
         className='pesonInfo'
@@ -111,3 +113,12 @@ class Observer {
     return this.subject.getState()
   }
 }
+
+function toDecimal(x) { 
+  var f = parseFloat(x); 
+  if (isNaN(f)) { 
+   return; 
+  } 
+  f = Math.round(x*100)/100; 
+  return f; 
+ } 

@@ -9,9 +9,17 @@ class FormLogin extends React.Component{
             url: '/v1/login',
             params: userInfo
         })
-        sessionStorage.setItem('uid', res.uid)
-        sessionStorage.setItem('account', res.account)
-        window.location.href='/home'
+        console.log(res);
+        sessionStorage.setItem('uid', res.admin[0]);
+        sessionStorage.setItem('account', res.account);
+        const adminStatus = res.uid === res.admin[0];
+       if(adminStatus){
+        window.location.href='/home';
+       }else{
+        window.location.href='/custom';
+       }
+
+        
     }
   handleSubmit = ()=>{
     let userInfo = this.props.form.getFieldsValue();
@@ -38,7 +46,7 @@ class FormLogin extends React.Component{
                                             message:'用户名不能为空'
                                         },
                                         {
-                                            min:5,max:20,
+                                            min:5,max:100,
                                             message:'长度不在范围内'
                                         },
                                         // {

@@ -1,8 +1,14 @@
 import React, { Component } from 'react'
 import CountInfo from '../Home/components/CountInfo/'
 import Record from '../Home/components/Record/'
-
-export default class Custom extends Component {
+import {getInit} from '../../redux/action'
+import {connect} from 'react-redux'
+class Custom extends Component {
+  componentDidMount(){
+    const { dispatch } = this.props;
+    const initAction = getInit()
+    dispatch(initAction)
+  }
   render() {
     return (
       <div>
@@ -12,3 +18,4 @@ export default class Custom extends Component {
     )
   }
 }
+export default connect()(Custom)
