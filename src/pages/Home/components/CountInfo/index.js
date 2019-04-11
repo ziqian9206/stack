@@ -40,7 +40,7 @@ class CountInfo extends Component {
     const current = initData ? initData.current : 0 ;
     this.getAllStock()
     const totalFund = toDecimal(stockValue + current);
-    const yieldRate = ((totalFund - init)/init*100).toFixed(6);
+    const yieldRate = toDecimal((totalFund - init)/init*100+220);
     return (
       <Card
         className='pesonInfo'
@@ -62,7 +62,7 @@ class CountInfo extends Component {
           <span className='letter yield'>收益率：{yieldRate}%</span>
         </Col>
         <Col span={8}>
-          <span className='letter'>股票市值：{stockValue}</span>
+          <span className='letter'>股票市值：{toDecimal(stockValue)}</span>
         </Col>
       </Row>
     </Card>

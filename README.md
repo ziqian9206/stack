@@ -146,7 +146,8 @@ yarn add redux react-redux redux-devtools-extension --save
 成交金额
 成交时间
 收益率 实时（0.5/6)/100% 卖出  
-交易盈亏 利润-手续费
+
+浮动盈亏：现在价格-买入价格 *持仓
 
 手续费:万 10，卖出万 20
 

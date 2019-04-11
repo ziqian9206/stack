@@ -29,30 +29,38 @@ class Position extends Component {
         dataIndex:'current',
         key:'current'
       },
-      {
-        title:'今日涨幅',
-        dataIndex:'rate',
-        key:'rate'
-      },
+      // {
+      //   title:'今日涨幅',
+      //   dataIndex:'rate',
+      //   key:'rate'
+      // },
       {
         title:'浮动盈亏',
         dataIndex:'totalFund',
-        key:'totalFund'
+        key:'totalFund',
+        render:(text,record)=>{
+          if(text>0){
+            return <span color="red">{text}</span>
+          }else{
+            return <span style={{color:'blue'}}>{text}</span>
+          }
+          
+        }
       },
       // {
       //   title:'盈亏比例',
       //   dataIndex:'profitRatio',
       //   key:'profitRatio'
       // },
-      {
-        title:'持仓占比',
-        dataIndex:'positionRate',
-        key:'positionRate',
-        render : (text,record) => {
-          const positionRate = (record.current * record.hold /this.props.initData.current).toFixed(2)
-          return <span>{positionRate}</span>
-        }
-      }
+      // {
+      //   title:'持仓占比',
+      //   dataIndex:'positionRate',
+      //   key:'positionRate',
+      //   render : (text,record) => {
+      //     const positionRate = (record.current * record.hold /this.props.initData.current).toFixed(2)
+      //     return <span>{positionRate}</span>
+      //   }
+      // }
     ]
   }
 
@@ -65,13 +73,13 @@ class Position extends Component {
 //浮动盈亏：现在价格-开盘价格
 //盈亏比例：（现在价格-买入）/买入
   async componentDidMount(){
-    const position = await http.get(`/v1/stock/hold/${sessionStorage.getItem('uid')}`)
+    const position = await http.get(`/v1/stock/hold/${sessionStorage.getItem('uid')}`);
     position.map( async item => {
       const info = await http.get(`/v1/stock/${item.sid}`)
-      item['current'] = Number(info.currentPrice)
+      item.totalFund = (info.currentPrice*item['hold']+ item.earning).toFixed(2)
+      item['current'] = Number(info.currentPrice)//
       item['yesterdayEnd'] = info.yesterdayEnd
-      item['rate'] = ((item['current']- item['yesterdayEnd']) / item['yesterdayEnd']).toFixed(2)
-      item.totalFund = (item.current - item.yesterdayEnd).toFixed(2)
+      item['rate'] = ((info.currentPrice- item['yesterdayEnd']) / item['yesterdayEnd']).toFixed(2)
       this.setState({
         dataSource:this.state.dataSource.concat(item),
       })
@@ -85,7 +93,8 @@ class Position extends Component {
     return (
       <>
         <Spin spinning={this.state.loading}>
-          <Table columns={this.positionColumns} rowKey={record => (record._id)} dataSource={ this.state.dataSource }/>
+          <Table columns={this.positionColumns} rowKey={record => (record._id)} dataSource={ this.state.dataSource }
+           rowClassName={(record, index) => record.totalFund >0 ? "profitRow" : "lossRow"}/>
         </Spin>
       </>
     )
