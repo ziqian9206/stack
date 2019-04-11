@@ -78,7 +78,7 @@ class FormLogin extends React.Component{
                                     <Checkbox>记住密码</Checkbox>
                                 )
                             }
-                            <a href="/reg" style={{float:'right'}}>用户注册</a>
+                            {/* <a href="/reg" style={{float:'right'}}>用户注册</a> */}
                         </FormItem>
                         <FormItem>
                             <Button type="primary" onClick={this.handleSubmit}>登录</Button>
