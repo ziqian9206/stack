@@ -10,7 +10,8 @@ import {
   DatePicker,
   Select
 } from 'antd';
-import http from '../../axios'
+import http from '@/axios'
+import {toDecimal} from '@/utils/util'
 const formItemLayout = {
   labelCol: { span: 6 },
   wrapperCol: { span: 12 },
@@ -43,12 +44,12 @@ class Index extends Component {
         return{
             sid,
             sname,
-            action:Number(action.key),
+            action:toDecimal(action.key),
             time,
-            count:Number(count),
-            price:Number(price),
-            totalFund:Number(totalFund),
-            earning:Number(earning)
+            count:toDecimal(count),
+            price:toDecimal(price),
+            totalFund:toDecimal(totalFund),
+            earning:toDecimal(earning)
         }
     }
   render() {

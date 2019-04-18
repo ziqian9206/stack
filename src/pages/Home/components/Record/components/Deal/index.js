@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Table } from 'antd'
 import moment from 'moment'
-import http from '../../../../../../axios'
+import http from '@/axios'
 export default class Deal extends Component {
   constructor(props){
     super(props);
@@ -77,7 +77,6 @@ export default class Deal extends Component {
       starttime:todayDate,
       endtime:nowDate
     }
-    console.log(params)
     const record = await http.get(`/v1/transaction/${sessionStorage.getItem('uid')}`,{params});
     this.setState({
       dataSource:[...record]
@@ -87,7 +86,7 @@ export default class Deal extends Component {
   render() {
     return (
       <div>
-        <Table rowKey={record => (record._id)} columns={this.positionColumns} dataSource={this.state.dataSource}/>
+        <Table rowKey={record => (record._id)} columns={this.positionColumns} scroll={{ x: 1000 }} dataSource={this.state.dataSource}/>
       </div>
     )
   }

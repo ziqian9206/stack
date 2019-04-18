@@ -21,7 +21,7 @@ const tabList= [
     tab: '当日成交',
   }];
 const contentList = {
-  history:<div><History /></div>,
+  history:<><History /></>,
   position:<div><Position /></div>,
   entrust:<div><Entrust /></div>,
   deal:<div><Deal /></div>

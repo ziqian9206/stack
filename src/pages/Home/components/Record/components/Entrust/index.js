@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Table, Button } from 'antd';
-import http from '../../../../../../axios'
+import http from '@/axios'
 import moment from 'moment'
 export default class Entrust extends Component {
   constructor(props){
@@ -112,7 +112,7 @@ export default class Entrust extends Component {
   render() {
     return (
       <div>
-        <Table rowKey={record => (record._id)} columns={this.positionColumns} dataSource={this.state.dataSource}/>
+        <Table rowKey={record => (record._id)} scroll={{ x: 1000 }} columns={this.positionColumns} dataSource={this.state.dataSource}/>
       </div>
     )
   }

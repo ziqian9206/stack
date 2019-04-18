@@ -159,4 +159,4 @@ yarn add redux react-redux redux-devtools-extension --save
 
 "proxy": "http://118.24.8.141:7001",
 
-"proxy": "http://192.168.199.200:7001",
+"proxy": "http://192.168.199.125:7001",

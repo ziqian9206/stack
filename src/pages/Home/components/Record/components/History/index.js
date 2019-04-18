@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Table,Form,DatePicker, Button ,Row, Col } from 'antd';
-import http from '@/axios'
+import http from '@/axios/index'
 import moment from 'moment';
 import './index.less'
 
@@ -79,6 +79,16 @@ class History extends Component {
         dataIndex:'totalFund',
         key:'totalFund'
       },
+      {
+        title:'操作',
+        dataIndex:'operation',
+        key:'operation',
+        render:(text,record) => {
+          if(!record.mock){
+            return <Button onClick={()=>this.handleCancel(record)}>撤销</Button>
+          }
+        }
+      },
     ]
   }
   
@@ -88,6 +98,12 @@ class History extends Component {
       tableData:record
     })
   }
+
+  // handleCancel = async(record) => {
+  //   console.log(record)
+  //   http://192.168.199.125:7001/v1/user/admin?account=&admin=1
+  //   //await http.delete(`/v1/transaction/${sessionStorage.getItem('uid')}`,{id:record.id})
+  // }
 
   handleSubmit = async() => {
     const { time } = this.props.form.getFieldsValue();
@@ -106,9 +122,10 @@ class History extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
-      <div>
+      <>
         <Table columns={this.positionColumns}  
         rowKey={record => (record._id)} 
+        scroll={{ x: 1000 }}
         dataSource={this.state.tableData} 
         rowClassName={(record, index) => record.action === 1 ? "parchaseRow" : "saleRow"}
         />
@@ -123,19 +140,18 @@ class History extends Component {
                 </FormItem>
               </Col>
               <Col span={8}>
-                <Form.Item
+                <FormItem
                   wrapperCol={{
                     xs: { span: 24, offset: 0 },
                     sm: { span: 16, offset: 8 },
                   }}
                 >
                   <Button className='btn' type="primary" onClick={this.handleSubmit}>确认</Button>
-                </Form.Item>
+                </FormItem>
               </Col>
             </Row>
           </Form>
-        
-      </div>
+      </>
     )
   }
 }

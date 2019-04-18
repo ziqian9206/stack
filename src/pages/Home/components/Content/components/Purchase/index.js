@@ -10,7 +10,8 @@ import {
 } from 'antd';
 import './index.less'
 import {connect} from 'react-redux'
-import http from '../../../../../../axios/index'
+import {toDecimal} from '@/utils/util'
+import http from '@/axios/index'
 const formItemLayout = {
   labelCol: { span: 6 },
   wrapperCol: { span: 12 },
@@ -57,7 +58,7 @@ class Index extends Component {
   handlePurchaseBlur=(e)=>{
     this.purchasePrice = e.target.value
     if(e.target.value && this.purchaseAmount !== 0 ){
-      const purchaseSum = this.purchaseAmount*this.purchasePrice
+      const purchaseSum = toDecimal(this.purchaseAmount*this.purchasePrice);
       this.setState({
         purchaseSum 
       })
@@ -67,7 +68,7 @@ class Index extends Component {
   handleAmountBlur=(e)=>{
     this.purchaseAmount = e.target.value
     if(e.target.value && this.purchasePrice !== 0){
-      const purchaseSum = this.purchaseAmount*this.purchasePrice
+      const purchaseSum = toDecimal(this.purchaseAmount*this.purchasePrice)
       const availFund = this.current - purchaseSum * (1+0.001)
       if(availFund<0){
         message.error('当前资金不足，请充值')
@@ -79,13 +80,13 @@ class Index extends Component {
       }
     }
   }
-  //下单
-  handleSubmit = ()=>{
+  //下单 type买入
+  handleSubmit = async()=>{
     const sid = this.state.infoData.sid
-    const count = Number(this.purchaseAmount)
-    const price = Number(this.purchasePrice)
+    const count = toDecimal(this.purchaseAmount)
+    const price = toDecimal(this.purchasePrice)
     const uid = sessionStorage.getItem('uid')
-    http.post('/v1/transaction/buy',{sid,price,count,uid,type:1})
+    await http.post('/v1/transaction/buy',{sid,price,count,uid,type:1})
     window.location.href = '/home'
   }
   

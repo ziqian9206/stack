@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import { Card, Row,Col ,Button} from 'antd';
 import './index.less'
 import {connect} from 'react-redux'
-import http from '../../../../axios'
-import { getInit, fundAction } from '../../../../redux/action'
+import http from '@/axios'
+import {toDecimal} from '@/utils/util'
+import { getInit, fundAction } from '@/redux/action'
 class CountInfo extends Component {
   constructor(props){
     super(props)
@@ -40,7 +41,7 @@ class CountInfo extends Component {
     const current = initData ? initData.current : 0 ;
     this.getAllStock()
     const totalFund = toDecimal(stockValue + current);
-    const yieldRate = toDecimal((totalFund - init)/init*100);
+    const yieldRate = toDecimal((totalFund - init)/init);
     return (
       <Card
         className='pesonInfo'
@@ -90,7 +91,7 @@ class Subject{
     this.state += state
     setTimeout(() => {
       this.notifyAllObservers(dispatch)
-    }, 100);
+    }, 10);
   }
   notifyAllObservers(dispatch){
     this.obsevers.map( observer => {
@@ -113,12 +114,3 @@ class Observer {
     return this.subject.getState()
   }
 }
-
-function toDecimal(x) { 
-  var f = parseFloat(x); 
-  if (isNaN(f)) { 
-   return; 
-  } 
-  f = Math.round(x*100)/100; 
-  return f; 
- } 

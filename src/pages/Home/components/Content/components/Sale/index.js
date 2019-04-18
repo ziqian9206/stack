@@ -11,8 +11,9 @@ import {
 } from 'antd';
 import './index.less'
 import {connect} from 'react-redux'
-import {getPosition} from '../../../../../../redux/action'
-import http from '../../../../../../axios'
+import {getPosition} from '@/redux/action'
+import http from '@/axios/index'
+import {toDecimal} from '@/utils/util'
 const formItemLayout = {
   labelCol: { span: 6 },
   wrapperCol: { span: 12 },
@@ -44,7 +45,7 @@ class Index extends Component {
   handleSaleBlur = (e)=> {
     this.salePrice = e.target.value
     if(e.target.value && this.saleAmount !== 0 ){
-      const saleSum = this.saleAmount*this.salePrice
+      const saleSum = toDecimal(this.saleAmount*this.salePrice);
       this.setState({
         saleSum 
       })
@@ -55,8 +56,8 @@ class Index extends Component {
   handleAmountBlur = (e)=> {
     this.saleAmount = e.target.value
     if(e.target.value && this.salePrice !== 0){
-      const saleSum = this.saleAmount*this.salePrice
-      const availFund = this.current - saleSum * (1+0.002)
+      const saleSum = this.saleAmount * this.salePrice;
+      const availFund = this.current + saleSum * (1+0.002);
       if(availFund<0){
         message.error('当前资金不足，请充值')
       }else{
@@ -67,17 +68,17 @@ class Index extends Component {
       }
     }
   }
-
-  handleSubmit = () => {
+//type 0卖出
+  handleSubmit = async() => {
     const sid = this.state.sid,
           availSale = this.state.availSale,//当前可卖
-          count = Number(this.saleAmount),//卖出数量
-          price = Number(this.salePrice)
+          count = toDecimal(this.saleAmount),//卖出数量
+          price = toDecimal(this.salePrice)
     if(count <= availSale){
       //请求接口
       const uid = sessionStorage.getItem('uid')
       try{
-        http.post('/v1/transaction/buy',{sid,price,count,uid,type:0})
+        await http.post('/v1/transaction/buy',{sid,price,count,uid,type:0})
         window.location.href = '/home'
       }catch(err){
         message.error(err)

@@ -1,5 +1,6 @@
 import {INIT_ACTION, SWITCH_MENU, POSITON_ACTION, STOCK_ACTION,FUND_INFO} from '../action/actionType' 
-import http from '../../axios'
+import http from '@/axios'
+import {toDecimal} from '@/utils/util'
 const initialTitle = {
     menuName: ['首页'],
     stockValue:0
@@ -22,7 +23,7 @@ const initReducer = (state=initialTitle, action) => {
         case POSITON_ACTION:{
           action.position.map( async item => {
               const info = await http.get(`/v1/stock/${item.sid}`)
-              item['currentPrice'] = Number(info.currentPrice)
+              item['currentPrice'] = toDecimal(info.currentPrice)
               item.yesterdayEnd = info.yesterdayEnd
               item.rate = (item.currentPrice - item.yesterdayEnd) / item.yesterdayEnd
             })

@@ -1,9 +1,10 @@
 //当前持仓
 import React, { Component } from 'react'
-import { Table, Spin } from 'antd';
+import { Table, Spin,Button } from 'antd';
 import {connect} from 'react-redux'
-import http from '../../../../../../axios'
-import {getPosition, getStock} from '../../../../../../redux/action'
+import http from '@/axios'
+import {getPosition, getStock} from '@/redux/action'
+import {toDecimal} from '@/utils/util'
 class Position extends Component {
   constructor(props){
     super(props);
@@ -77,7 +78,7 @@ class Position extends Component {
     position.map( async item => {
       const info = await http.get(`/v1/stock/${item.sid}`)
       item.totalFund = (info.currentPrice*item['hold']+ item.earning).toFixed(2)
-      item['current'] = Number(info.currentPrice)//
+      item['current'] = toDecimal(info.currentPrice)//
       item['yesterdayEnd'] = info.yesterdayEnd
       item['rate'] = ((info.currentPrice- item['yesterdayEnd']) / item['yesterdayEnd']).toFixed(2)
       this.setState({
@@ -93,7 +94,7 @@ class Position extends Component {
     return (
       <>
         <Spin spinning={this.state.loading}>
-          <Table columns={this.positionColumns} rowKey={record => (record._id)} dataSource={ this.state.dataSource }
+          <Table columns={this.positionColumns} rowKey={record => (record._id)} scroll={{ x: 1000 }} dataSource={ this.state.dataSource }
            rowClassName={(record, index) => record.totalFund >0 ? "profitRow" : "lossRow"}/>
         </Spin>
       </>
