@@ -79,16 +79,16 @@ class History extends Component {
         dataIndex:'totalFund',
         key:'totalFund'
       },
-      {
-        title:'操作',
-        dataIndex:'operation',
-        key:'operation',
-        render:(text,record) => {
-          if(!record.mock){
-            return <Button onClick={()=>this.handleCancel(record)}>撤销</Button>
-          }
-        }
-      },
+      // {
+      //   title:'操作',
+      //   dataIndex:'operation',
+      //   key:'operation',
+      //   render:(text,record) => {
+      //     if(!record.mock){
+      //       return <Button onClick={()=>this.handleCancel(record)}>撤销</Button>
+      //     }
+      //   }
+      // },
     ]
   }
   
