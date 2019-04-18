@@ -91,7 +91,7 @@ class Subject{
     this.state += state
     setTimeout(() => {
       this.notifyAllObservers(dispatch)
-    }, 10);
+    }, 1000);
   }
   notifyAllObservers(dispatch){
     this.obsevers.map( observer => {
