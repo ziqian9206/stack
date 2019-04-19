@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Table } from 'antd'
 import moment from 'moment'
 import http from '@/axios'
+import {toDecimal} from '@/utils/util'
 export default class Deal extends Component {
   constructor(props){
     super(props);
@@ -47,7 +48,10 @@ export default class Deal extends Component {
       {
         title:'成交价格',
         dataIndex:'price',
-        key:'price'
+        key:'price',
+        render:(text,record) => {
+          return <span>{toDecimal(text)}</span>
+        }
       },
       {
         title:'成交数量',
@@ -59,7 +63,7 @@ export default class Deal extends Component {
         dataIndex:'sum',
         key:'sum',
         render:(text, record) => {
-          return <span>{record.price * record.count}</span>
+          return <span>{toDecimal(record.price * record.count)}</span>
         }
       },
     ]
