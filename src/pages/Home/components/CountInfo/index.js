@@ -41,7 +41,7 @@ class CountInfo extends Component {
     const current = initData ? initData.current : 0 ;
     this.getAllStock()
     const totalFund = toDecimal(stockValue + current);
-    const yieldRate = toDecimal((totalFund - init)/init)*100;
+    const yieldRate = toDecimal(100*(totalFund - init)/init);
     return (
       <Card
         className='pesonInfo'
