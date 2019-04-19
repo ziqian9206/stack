@@ -3,7 +3,7 @@ import { Table,Form,DatePicker, Button ,Row, Col } from 'antd';
 import http from '@/axios/index'
 import moment from 'moment';
 import './index.less'
-
+import {toDecimal} from '@/utils/util'
 const formItemLayout = {
   wrapperCol: {
     xs: { span: 24 },
@@ -77,7 +77,10 @@ class History extends Component {
       {
         title:'成交金额',
         dataIndex:'totalFund',
-        key:'totalFund'
+        key:'totalFund',
+        render:(text,record) => {
+          return <span>{toDecimal(text)}</span>
+        }
       },
       // {
       //   title:'操作',
