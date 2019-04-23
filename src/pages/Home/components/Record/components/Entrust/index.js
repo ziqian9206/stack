@@ -66,15 +66,15 @@ export default class Entrust extends Component {
           }
         } 
       },
-      {
-        title: '操作',
-        dataIndex: 'operator',
-        fixed: 'right',
-        width: 100,
-        render: (text, record) => (
-           <Button onClick={()=>{this.onOperatorClick(record)}}>撤销</Button>
-        )
-    }
+      // {
+      //   title: '操作',
+      //   dataIndex: 'operator',
+      //   fixed: 'right',
+      //   width: 100,
+      //   render: (text, record) => (
+      //      <Button onClick={()=>{this.onOperatorClick(record)}}>撤销</Button>
+      //   )
+      // }
     ]
   }
 
@@ -96,9 +96,9 @@ export default class Entrust extends Component {
     })
   }
 
-  onOperatorClick = (record) => {
+  onOperatorClick = async(record) => {
     const data = []
-    http.get(`/v1/stock/commission/revoke/${record._id}`)
+    await http.get(`/v1/stock/commission/revoke/${record._id}`)
     this.state.dataSource.map(( item ) => {
       if(item._id !== record._id){
         data.push(item)
@@ -108,6 +108,7 @@ export default class Entrust extends Component {
     this.setState({
       dataSource:[...data]
     })
+    window.location.href = '/home'
   }
   render() {
     return (

@@ -9,14 +9,15 @@ class FormLogin extends React.Component{
             url: '/v1/login',
             params: userInfo
         })
-        console.log(res);
+        
         sessionStorage.setItem('uid', res.admin[0]);
         sessionStorage.setItem('account', res.account);
-        const adminStatus = res.uid === res.admin[0];
+
+        const adminStatus = (res.uid === res.admin[0]);
        if(adminStatus){
-        window.location.href='/home';
+            window.location.href='/home';
        }else{
-        window.location.href='/custom';
+            window.location.href='/custom';
        }
 
         
